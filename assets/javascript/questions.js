@@ -2,12 +2,13 @@
 
 var quests = [];
 
+
+
 var url = "https://opentdb.com/api.php?amount=10&category=17&type=multiple"
 var req = new XMLHttpRequest();
 req.onload = () => {
-  console.log(req.responseText);
   var json = JSON.parse(req.responseText);
-  console.log(json);
+  // convert objects to desired structure and puts them in quests arr
   for (var i = 0; i < json.results.length; i++) {
     var qObjOut = {};
     var qObjIn = json.results[i];

@@ -1,6 +1,9 @@
 // to do: 
-// eliminate gameStarted and use curQ = -1 as flag instead?
 // make fresh api call with new game
+// make mini result for each q
+// update style
+// eliminate gameStarted and use curQ = -1 as flag instead?
+
 var timerDisplay = document.querySelector("#timer");
 var questionDisplay = document.querySelector("#question");
 var answerDisplay = document.querySelector("#answer-choices");
@@ -61,7 +64,6 @@ function handleAnswer(answerVal) {
     results.incorrect++;
   }
   questionAnswered = true;
-  console.log(results);
   if (curQ < quests.length - 1) {
     displayNewQA();
   } else {
