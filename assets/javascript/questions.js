@@ -1,26 +1,33 @@
-var quests = [{
-  question: "One of the earliest known recipes for chicken pie is dated from when?",
-  answers: ["Before 2000BC", "Around 100BC", "100AD", "1557"],
-  indexCorrect: 0
-},
-{
-  question: "What is blue?",
-  answers: ["one", "two", "three", "four"],
-  indexCorrect: 0
-},
-{
-  question: "Where did bread baking begin?",
-  answers: ["Ancient Rome", "Ancient Greece", "Ancient China", "Ancient Mars"],
-  indexCorrect: 1
-},
-{
-  question: "The world's oldest oven was discovered in 2014 in Croatia. How old was it?",
-  answers: ["500 years old", "1,027 years old", "6,500 years old", "10,200 years old"],
-  indexCorrect: 2
-},
-{
-  question: "In the year 1 AD, approximately how many bakers were there in Rome?",
-  answers: ["3", "About 50", "About 300", "Over 9000!"],
-  indexCorrect: 2
+// https://opentdb.com/api_config.php
+
+var quests = [];
+
+var url = "https://opentdb.com/api.php?amount=10&category=17&type=multiple"
+var req = new XMLHttpRequest();
+req.onload = () => {
+  console.log(req.responseText);
+  var json = JSON.parse(req.responseText);
+  console.log(json);
+  for (var i = 0; i < json.results.length; i++) {
+    var qObjOut = {};
+    var qObjIn = json.results[i];
+    qObjOut.question = qObjIn.question;
+    qObjOut.answers = [];
+    qObjOut.indexCorrect = Math.floor(Math.random() * 4);
+    var x = 0;
+    for (var j = 0; j < 4; j++) {
+      if (j === qObjOut.indexCorrect) {
+        qObjOut.answers[j] = qObjIn.correct_answer;
+      } else {
+        qObjOut.answers[j] = qObjIn.incorrect_answers[x];
+        x++;
+      }
+    }
+    quests.push(qObjOut);
+
+  }
+  console.log(quests);
 }
-]
+req.open("GET", url, false);
+req.send();
+

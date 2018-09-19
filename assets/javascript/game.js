@@ -1,6 +1,6 @@
 // to do: 
 // eliminate gameStarted and use curQ = -1 as flag instead?
-// move quests to new file
+// make fresh api call with new game
 var timerDisplay = document.querySelector("#timer");
 var questionDisplay = document.querySelector("#question");
 var answerDisplay = document.querySelector("#answer-choices");
