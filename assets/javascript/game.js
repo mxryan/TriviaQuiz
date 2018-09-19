@@ -1,8 +1,13 @@
+// to do: 
+// eliminate gameStarted and use curQ = -1 as flag instead?
+// move quests to new file
 var timerDisplay = document.querySelector("#timer");
 var questionDisplay = document.querySelector("#question");
 var answerDisplay = document.querySelector("#answer-choices");
+var gameArea = document.querySelector("game-area");
 var curQ = -1; // index current question
-var questionAnswered = false; // flag to decide if question unanswered after time's up
+var questionAnswered = false; 
+var gameStarted = false;
 var timeRemaining = 30;
 var timerID = null;
 var results = {
@@ -10,41 +15,26 @@ var results = {
   incorrect: 0,
   unanswered: 0
 }
-var quests = [{
-    question: "One of the earliest known recipes for chicken pie is dated from when?",
-    answers: ["Before 2000BC", "Around 100BC", "100AD", "1557"],
-    indexCorrect: 0
-  },
-  {
-    question: "What is blue?",
-    answers: ["one", "two", "three", "four"],
-    indexCorrect: 0
-  },
-  {
-    question: "Where did bread baking begin?",
-    answers: ["Ancient Rome", "Ancient Greece", "Ancient China", "Ancient Mars"],
-    indexCorrect: 1
-  },
-  {
-    question: "The world's oldest oven was discovered in 2014 in Croatia. How old was it?",
-    answers: ["500 years old", "1,027 years old", "6,500 years old", "10,200 years old"],
-    indexCorrect: 2
-  },
-  {
-    question: "In the year 1 AD, approximately how many bakers were there in Rome?",
-    answers: ["3", "About 50", "About 300", "Over 9000!"],
-    indexCorrect: 2
-  }
-]
+
 
 
 
 function displayNewQA() {
   curQ++;
-  questionDisplay.textContent = quests[curQ].question;
-  questionAnswered = false;
-  setAnswerChoices();
-  setCountdown();
+  if (!gameStarted) {
+    gameStarted = true;
+    results = {
+      correct: 0,
+      incorrect: 0,
+      unanswered: 0
+    }
+  }
+  if (curQ < quests.length) {
+    questionDisplay.textContent = quests[curQ].question;
+    questionAnswered = false;
+    setAnswerChoices();
+    setCountdown();
+  }
 }
 
 function setAnswerChoices() {
@@ -72,10 +62,14 @@ function handleAnswer(answerVal) {
   }
   questionAnswered = true;
   console.log(results);
-  displayNewQA();
+  if (curQ < quests.length - 1) {
+    displayNewQA();
+  } else {
+    gameOver();
+  }
 }
 
-function setCountdown(){
+function setCountdown() {
   if (timerID) clearInterval(timerID);
   timeRemaining = 30;
   timerDisplay.textContent = timeRemaining;
@@ -86,13 +80,35 @@ function tick() {
   timeRemaining--;
   timerDisplay.textContent = timeRemaining;
   if (timeRemaining === 0) {
+    if (!questionAnswered) results.unanswered++;
+    if (curQ === quests.length -1 ) {
+      gameOver();
+    }
     displayNewQA();
-    if(!questionAnswered) results.unanswered++;
-
   }
-  
-  
 }
 
-displayNewQA();
+function gameOver() {
+  if (timerID) clearInterval(timerID);
+  curQ = -1;
+  gameStarted = false;
+  displayResults();
+}
 
+function displayResults() {
+  timerDisplay.textContent = "Game over!";
+  questionDisplay.textContent = "How did you do?";
+  while (answerDisplay.firstChild) {
+    answerDisplay.removeChild(answerDisplay.firstChild);
+  }
+  var resultsHTML = "<p class='results'> Correct: " + results.correct +
+    "</p><p class='results'> Incorrect: " + results.incorrect +
+    "</p><p class='results'> Unanswered: " + results.unanswered +
+    "</p>";
+  answerDisplay.innerHTML = resultsHTML;
+}
+
+
+document.querySelector("#start-game").addEventListener("click", () => {
+  if (!gameStarted) displayNewQA();
+});
