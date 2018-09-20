@@ -7,6 +7,24 @@ body {
 
 .container {
   background-color: peru;
+  display: flex;
+  justify-content: space-around;
+}
+
+#main-panel {
+  background-color: turquoise;
+  width: 65%
+}
+
+#side-panel {
+  background-color: cornflowerblue;
+  width: 20%;
+  
+}
+
+#info {
+  
+  
 }
 
 .choice:hover {
