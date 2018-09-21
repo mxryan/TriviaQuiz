@@ -1,4 +1,8 @@
-//to do: hide start button when game starts
+// I think this code is a bit of a mess because i started
+// building it without much of a plan in mind. Eventually I would like to rebuild
+// from scratch. 
+
+
 var newGameBtn = document.querySelector("#start-game");
 var timerDisplay = document.querySelector("#timer");
 var questionDisplay = document.querySelector("#question");
@@ -24,6 +28,7 @@ var results = {
 }
 
 function displayNewQA() {
+  // doesnt actually display the answer choices, but calls the fn that does
   curQ++;
   breakTimerDisplay.textContent = "Round Active!"
   infoDisplay.textContent = "";
@@ -47,8 +52,11 @@ function displayNewQA() {
   }
 }
 
-var quests = [];
 function grabNewQuests() {
+  // api call is not async because too many functions depend on the data already
+  // being there. I didn't initially plan on making an API call and built most
+  // of the functions in a way that would result in them being called before data
+  // became available. Eventually I'd like to rework it all to be async
   var url = "https://opentdb.com/api.php?amount=10&category=17&type=multiple"
   var req = new XMLHttpRequest();
   req.onload = () => {
@@ -78,6 +86,9 @@ function grabNewQuests() {
 }
 
 function setAnswerChoices() {
+  // remove old answer choices and populate new ones
+  
+  // i read this is faster than setting innerHTML to empty string
   while (answerDisplay.firstChild) {
     answerDisplay.removeChild(answerDisplay.firstChild);
   }
@@ -101,6 +112,7 @@ function setCountdown() {
 }
 
 function handleAnswer(answerVal) {
+  // this gets called when user clicks on an answer choice
   if (!questionAnswered) {
     breakTimerDisplay.textContent = 3
     questionAnswered = true;
@@ -140,8 +152,11 @@ function tick() {
 }
 
 function breakTick() {
+  // sounds like it might stop the interval but its the clock tick for 
+  // the break timer. it doesnt 'break' the tick() fn.
   breakTimeRemaining--;
   breakTimerDisplay.textContent = breakTimeRemaining;
+  // pretty sure there is a better way to write these conditionals
   if (breakTimeRemaining === 0 && curQ === quests.length - 1) {
     clearInterval(breakTimerID);
     gameOver();
@@ -154,6 +169,8 @@ function breakTick() {
 
 function gameOver() {
   if (timerID) clearInterval(timerID);
+  // displayNewQA fn increments the question index so we start at
+  // -1 to make sure question at index 0 makes it to page
   curQ = -1;
   gameStarted = false;
   newGameBtn.textContent = "New Questions!"

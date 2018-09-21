@@ -16,9 +16,9 @@ body {
 }
 
 .timer {
-  margin-top: 20px;
+  
   font-family: 'VT323', monospace;
-  font-size: 230%;
+  font-size: 200% !important;
   background-color: #00A3AF;
   display: inline-block;
   padding-left: 2%;
@@ -31,8 +31,17 @@ body {
   width: 65%
 }
 
+#question {
+  font-size: 165%;
+}
+
 #answer-choices p {
   cursor:context-menu;
+}
+
+button {
+  background-color: #DCCB18;
+  color: #00A3AF;
 }
 
 #side-panel {
@@ -43,12 +52,13 @@ body {
 #side-panel div {
   font-size: 20px;
   margin-top: 20px;
-  
 }
 
 .choice:hover {
   background-color: #00A3AF;
 }
+
+
 
 #break-timer {
   font-size: 200%;
