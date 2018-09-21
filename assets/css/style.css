@@ -1,32 +1,67 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
+/* todo: style start btn */
 
 body {
   text-align: center;
   font-family: 'Raleway', sans-serif;
+  background-color: #DCD3B2;
 }
 
 .container {
-  background-color: peru;
+  color: #43676B;
   display: flex;
   justify-content: space-around;
 }
+.timer {
+  margin-top: 20px;
+  font-family: 'VT323', monospace;
+  font-size: 230%;
+  background-color: #00A3AF;
+  display: inline-block;
+  padding-left: 2%;
+  padding-right: 2%;
+  border-radius: 4%;
+}
 
 #main-panel {
-  background-color: turquoise;
+  background-color: #EE836F;
   width: 65%
 }
 
-#side-panel {
-  background-color: cornflowerblue;
-  width: 20%;
-  
+#answer-choices p {
+  cursor:context-menu;
 }
 
-#info {
-  
+#side-panel {
+  background-color: #DCCB18;
+  width: 35%;
+}
+
+#side-panel div {
+  font-size: 20px;
+  margin-top: 20px;
   
 }
 
 .choice:hover {
-  background-color: purple;
+  background-color: #00A3AF;
+}
+
+#break-timer {
+  font-size: 200%;
+}
+
+@media screen and (max-width: 640px) {
+  .container {
+    display: block;
+  }
+  #main-panel {
+    width: 100%;
+  }
+  #side-panel {
+    width: 100%;
+  }
+  
 }
