@@ -1,5 +1,5 @@
 //to do: hide start button when game starts
-
+var newGameBtn = document.querySelector("#start-game");
 var timerDisplay = document.querySelector("#timer");
 var questionDisplay = document.querySelector("#question");
 var answerDisplay = document.querySelector("#answer-choices");
@@ -8,6 +8,7 @@ var breakLabelDisplay = document.querySelector("#break-label");
 var breakTimerDisplay = document.querySelector("#break-timer");
 var infoDisplay = document.querySelector("#info");
 var detailsDisplay = document.querySelector("#info-details");
+
 var quests = [];
 var curQ = -1; // index current question
 var questionAnswered = false;
@@ -30,6 +31,7 @@ function displayNewQA() {
   breakLabelDisplay.textContent ="";
   if (!gameStarted) {
     gameStarted = true;
+    newGameBtn.style.display = "none";
     grabNewQuests();
     results = {
       correct: 0,
@@ -74,8 +76,6 @@ function grabNewQuests() {
   req.open("GET", url, false);
   req.send();
 }
-
-
 
 function setAnswerChoices() {
   while (answerDisplay.firstChild) {
@@ -156,6 +156,8 @@ function gameOver() {
   if (timerID) clearInterval(timerID);
   curQ = -1;
   gameStarted = false;
+  newGameBtn.textContent = "New Questions!"
+  newGameBtn.style.display = "inline-block";
   displayResults();
 }
 
@@ -172,6 +174,6 @@ function displayResults() {
   answerDisplay.innerHTML = resultsHTML;
 }
 
-document.querySelector("#start-game").addEventListener("click", () => {
+newGameBtn.addEventListener("click", () => {
   if (!gameStarted) displayNewQA();
 });
