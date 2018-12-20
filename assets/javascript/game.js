@@ -53,16 +53,12 @@ function displayNewQA() {
 }
 
 function grabNewQuests() {
-  // api call is not async because too many functions depend on the data already
-  // being there. I didn't initially plan on making an API call and built most
-  // of the functions in a way that would result in them being called before data
-  // became available. Eventually I'd like to rework it all to be async
   var url = "https://opentdb.com/api.php?amount=10&category=17&type=multiple"
   var req = new XMLHttpRequest();
   req.onload = () => {
     quests = [];
     var json = JSON.parse(req.responseText);
-    // convert objects to desired structure and puts them in quests arr
+    // converts objects to desired structure and puts them in quests arr
     for (var i = 0; i < json.results.length; i++) {
       var qObjOut = {};
       var qObjIn = json.results[i];
